@@ -51,6 +51,31 @@ public class APITest {
 		;
 	}
 	
+	@Test
+	public void deveRemoverTarefaComSucesso() {
+		//Inserir
+		Integer id = RestAssured.given()
+		.body("{\"task\": \"Finalizar Curso: Integração Contínua com testes, utilizando Jenkins.\", \"dueDate\": \"2030-01-30\"}")
+		.contentType(ContentType.JSON)
+	.when()
+		.post("/todo")
+	.then()
+//		.log().all()
+		.statusCode(201)
+		.extract().path("id")
+	;
+		
+		System.out.println(id);
+		
+		//Remover
+		RestAssured.given()
+		.when()
+			.delete("/todo/"+id)
+		.then()
+			.statusCode(204)
+			
+			;
+	}
 }
 
 
